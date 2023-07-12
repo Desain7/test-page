@@ -205,16 +205,16 @@
 	</div>
 	<script>
 		var score = 0
-			function addEventListenerOfMessage (cb) {
-			// 为window注册message事件并绑定监听函数
-			if (window.addEventListener) {
-					window.removeEventListener('message', cb, false)
-					window.addEventListener('message', cb, false)
-			} else if (window.attachEvent) { 
-					window.detachEvent('message', cb)
-					window.attachEvent('message', cb)
-			}
-		}
+		// 	function addEventListenerOfMessage (cb) {
+		// 	// 为window注册message事件并绑定监听函数
+		// 	if (window.addEventListener) {
+		// 			window.removeEventListener('message', cb, false)
+		// 			window.addEventListener('message', cb, false)
+		// 	} else if (window.attachEvent) { 
+		// 			window.detachEvent('message', cb)
+		// 			window.attachEvent('message', cb)
+		// 	}
+		// }
 		function submitAnswers() {
 			var answers = [];
       const trueAnswerChose = ["A","C","D","B","C"];
@@ -251,6 +251,18 @@
 			}
       }
 
+
+			//本页面向苍穹页面传数据
+			var name = "大学化学"
+			var str = window.location.search;
+			var pageid = str.substring(str.search("=")+1,str.length)
+			console.log("像苍穹页面发送前score的值：",score,pageid)
+			window.parent.postMessage({pageId:pageid,type:'invokeCustomEvent',content:{
+				name:name,
+				score:score
+			}},'*')
+
+
 			// 获取简答题答案
 			var q21 = document.getElementsByName('q21')[0].value;
 			answers.push({
@@ -275,18 +287,35 @@
       s.innerHTML = score
       console.log("得分为：",score)
 		}
-		window.onload = ()=>{
-			const pageId = window.location.search.split('=')[1]
-			document.getElementById('btn1').addEventListener('click',()=>{
-				window.parent.postMessage({
-					pageId:pageId,
-					type:'invokeCustomEvent',
-					content:{
-						msg:score
-					}
-				})
+		// window.onload = ()=>{
+		// 	const pageId = window.location.search.split('=')[1]
+		// 	document.getElementById('btn1').addEventListener('click',()=>{
+		// 		window.parent.postMessage({
+		// 			pageId:pageId,
+		// 			type:'invokeCustomEvent',
+		// 			content:{
+		// 				msg:score
+		// 			}
+		// 		})
+		// 	})
+		// }
+
+		//苍穹向本页面传数据
+		window.onload = function(){
+			window.addEventListener('message',function(e){
+				if (e.origin !== "http://192.168.5.54:8080"){
+					return;
+				}
+				debugger
+				if (e.data){
+					//苍穹传过来的数据
+					var json = eval("("+e.data+")");
+
+				}
 			})
 		}
+		
+		
 	</script>
 </body>
 </html>
