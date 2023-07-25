@@ -302,10 +302,20 @@
 		//苍穹向本页面传数据
 		window.onload = function(){
 			console.log("进入onload")
-			function cb(event) {
-  			console.log('Received message:', event.data);
-			}
-			function addEventListenerOfMessage(cb){
+			// window.addEventListener('message',function(e){
+			// 	console.log("1111",e)
+			// 	console.log(e.data)
+			// 	debugger
+			// 	if (e.data){
+			// 		//苍穹传过来的数据
+			// 		console.log(e.data)
+			// 		var json = eval("("+e.data+")");
+			// 		console.log(json)
+			// 	}
+			// })
+			console.log("onload结束")
+		}
+		function addEventListenerOfMessage(cb){
 				if(window.addEventListener){
 				window.removeEventListener('message',cb,false)
 				window.addEventListener('message',cb,false)
@@ -315,20 +325,13 @@
 				window.attachEvent('message',cb)
 			}
 			}
-			
-			window.addEventListener('message',function(e){
-				console.log("1111",e)
-				console.log(e.data)
-				debugger
-				if (e.data){
-					//苍穹传过来的数据
-					console.log(e.data)
-					var json = eval("("+e.data+")");
-					console.log(json)
-				}
-			})
-			console.log("onload结束")
-		}
+		addEventListenerOfMessage(res =>{
+			console.log(res)
+			const result = JSON.parse(res.data)
+			console.log('进入回调函数')
+			console.log(result)
+			console.log(result.content)
+		})
 		
 		
 		
