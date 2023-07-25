@@ -253,12 +253,11 @@
 
 
 			//本页面向苍穹页面传数据
-			var name = "大学化学"
 			var str = window.location.search;
 			var pageid = str.substring(str.search("=")+1,str.length)
 			console.log("像苍穹页面发送前score的值：",score,pageid)
 			window.parent.postMessage({pageId:pageid,type:'invokeCustomEvent',content:{
-				name:name,
+				name:"2",
 				score:score
 			}},'*')
 
@@ -302,7 +301,7 @@
 
 		//苍穹向本页面传数据
 		window.onload = function(){
-			console.log(1)
+			console.log("进入onload")
 			window.addEventListener('message',function(e){
 				console.log("1111",e)
 				console.log(e.data)
@@ -314,6 +313,7 @@
 					console.log(json)
 				}
 			})
+			console.log("onload结束")
 		}
 		
 		
