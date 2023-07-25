@@ -302,6 +302,20 @@
 		//苍穹向本页面传数据
 		window.onload = function(){
 			console.log("进入onload")
+			function cb(event) {
+  			console.log('Received message:', event.data);
+			}
+			function addEventListenerOfMessage(cb){
+				if(window.addEventListener){
+				window.removeEventListener('message',cb,false)
+				window.addEventListener('message',cb,false)
+			}
+			else if(window.attachEvent){
+				window.detachEvent('message',cb)
+				window.attachEvent('message',cb)
+			}
+			}
+			
 			window.addEventListener('message',function(e){
 				console.log("1111",e)
 				console.log(e.data)
